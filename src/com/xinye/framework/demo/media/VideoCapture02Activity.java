@@ -31,7 +31,7 @@ public class VideoCapture02Activity extends Activity implements OnClickListener,
 
         recorder = new MediaRecorder();
         initRecorder();
-        setContentView(R.layout.meida_video_capture_01);
+        setContentView(R.layout.media_video_capture_01);
 
         SurfaceView cameraView = (SurfaceView) findViewById(R.id.CameraView);
         holder = cameraView.getHolder();
