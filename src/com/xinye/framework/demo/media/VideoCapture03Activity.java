@@ -2,9 +2,7 @@ package com.xinye.framework.demo.media;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -14,9 +12,11 @@ import com.xinye.framework.demo.R;
 import java.io.IOException;
 
 /**
- * 录制视频最简单的使用示例，适用于2.2及以上版本
+ * 录制视频最简单的定制示例，适用于所有版本
  */
-public class VideoCapture01Activity extends Activity implements OnClickListener, SurfaceHolder.Callback {
+public class VideoCapture03Activity extends Activity
+        implements OnClickListener, SurfaceHolder.Callback {
+
     MediaRecorder recorder;
     SurfaceHolder holder;
 
@@ -48,30 +48,26 @@ public class VideoCapture01Activity extends Activity implements OnClickListener,
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
 
-        CamcorderProfile profile = null;
+        recorder.setAudioChannels(1);//TODO 音频声道,1为单身到，2为双声道
+        recorder.setAudioEncodingBitRate(64000);//TODO 音频码率
+        recorder.setAudioSamplingRate(44100);//TODO 音频采样率
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // 对于android 3.0 以上的手机，可以根据需求以及手机自身的性能选择视频质量标准
-            if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_1080P)) {
-                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_1080P);
-            } else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_720P)) {
-                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_720P);
-            } else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P)) {
-                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
-            } else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HIGH)) {
-                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
-            }
-        } else {
-            profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
-        }
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);// TODO 音频编码
+        recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264); // TODO 视频编码
+        recorder.setVideoEncodingBitRate(400000);//TODO 视频码率
+        recorder.setVideoSize(640, 480); // TODO 视频大小
+        recorder.setVideoFrameRate(10);// TODO 帧率
 
-        recorder.setProfile(profile);
 
         recorder.setOutputFile("/sdcard/videocapture_example.mp4");
+        recorder.setMaxDuration(6000000); // TODO 视频的最大时间长度
+        recorder.setMaxFileSize(500000000);// TODO 视频的最大文件大小
     }
 
     private void prepareRecorder() {
         recorder.setPreviewDisplay(holder.getSurface());
+        recorder.setOrientationHint(90);//TODO 视频播放时的纠偏角度
 
         try {
             recorder.prepare();

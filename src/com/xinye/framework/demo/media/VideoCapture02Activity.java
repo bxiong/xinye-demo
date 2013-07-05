@@ -12,7 +12,7 @@ import com.xinye.framework.demo.R;
 import java.io.IOException;
 
 /**
- *
+ * 录制视频最简单的使用示例，适用于2.2以下版本
  */
 public class VideoCapture02Activity extends Activity implements OnClickListener, SurfaceHolder.Callback {
     public static final String TAG = "VIDEOCAPTURE";
