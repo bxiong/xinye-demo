@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -12,6 +13,9 @@ import com.xinye.framework.demo.R;
 
 import java.io.IOException;
 
+/**
+ * 录制视频最简单的使用示例
+ */
 public class VideoCapture01Activity extends Activity implements OnClickListener, SurfaceHolder.Callback {
     MediaRecorder recorder;
     SurfaceHolder holder;
@@ -44,8 +48,24 @@ public class VideoCapture01Activity extends Activity implements OnClickListener,
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
 
-        CamcorderProfile cpHigh = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
-        recorder.setProfile(cpHigh);
+        CamcorderProfile profile = null;
+
+        // 对于android 3.0 以上的手机，可以根据需求以及手机自身的性能选择视频质量标准
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_1080P)) {
+                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_1080P);
+            } else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_720P)) {
+                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_720P);
+            } else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_480P)) {
+                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
+            } else if (CamcorderProfile.hasProfile(CamcorderProfile.QUALITY_HIGH)) {
+                profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+            }
+        } else {
+            profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+        }
+
+        recorder.setProfile(profile);
 
         recorder.setOutputFile("/sdcard/videocapture_example.mp4");
     }
@@ -67,7 +87,6 @@ public class VideoCapture01Activity extends Activity implements OnClickListener,
     public void onClick(View v) {
         if (recording) {
             recorder.stop();
-            // recorder.release();
             recording = false;
             Log.v(TAG, "Recording Stopped");
             // Let's initRecorder so we can record again

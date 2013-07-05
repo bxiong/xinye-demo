@@ -11,6 +11,9 @@ import com.xinye.framework.demo.R;
 
 import java.io.IOException;
 
+/**
+ *
+ */
 public class VideoCapture02Activity extends Activity implements OnClickListener, SurfaceHolder.Callback {
     public static final String TAG = "VIDEOCAPTURE";
     MediaRecorder recorder;
