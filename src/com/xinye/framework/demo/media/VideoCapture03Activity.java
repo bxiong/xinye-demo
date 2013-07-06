@@ -65,7 +65,7 @@ public class VideoCapture03Activity extends Activity
         recorder.setAudioEncodingBitRate(64000);//音频码率
         recorder.setAudioSamplingRate(44100);//音频采样率
 
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);//音频编码
         recorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264); //视频编码
         recorder.setVideoEncodingBitRate(400000);//视频码率

@@ -77,16 +77,19 @@ public class VideoCapture04Activity extends Activity implements OnClickListener,
 
         profile.fileFormat = MediaRecorder.OutputFormat.MPEG_4;
 
-        profile.audioChannels = 1;
-        profile.audioBitRate = 64000;
-        profile.audioCodec = MediaRecorder.AudioEncoder.AAC;
-        profile.audioSampleRate = 44100;
+        profile.audioChannels = 1;//音频声道
+        profile.audioBitRate = 64000;//音频码率
+        profile.audioCodec = MediaRecorder.AudioEncoder.AAC;//音频编码
+        profile.audioSampleRate = 44100;//音频编码率
 
-        profile.videoCodec = MediaRecorder.VideoEncoder.H264;
-        profile.videoBitRate = 400000;
-        profile.videoFrameRate = 15;
-        profile.videoFrameWidth = 640;
-        profile.videoFrameHeight = 480;
+        profile.videoCodec = MediaRecorder.VideoEncoder.H264;//视频编码
+        profile.videoBitRate = 400000;//视频码率
+        profile.videoFrameRate = 15;//视频帧率
+        profile.videoFrameWidth = 640;//视频宽度
+        profile.videoFrameHeight = 480;//视频高度
+
+        profile.duration = 6000000;
+        profile.fileFormat = MediaRecorder.OutputFormat.MPEG_4;
 
         recorder.setProfile(profile);
 
