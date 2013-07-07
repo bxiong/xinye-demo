@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 简单的Camera Preview示例
  */
-public class PictureCapture01Activity extends Activity {
+public class PicturePreview01Activity extends Activity {
     private Preview mPreview;
     Camera mCamera;
     int numberOfCameras;
