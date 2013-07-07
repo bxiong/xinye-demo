@@ -15,6 +15,9 @@ import com.xinye.framework.demo.R;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 简单的Camera Preview示例
+ */
 public class PictureCapture01Activity extends Activity {
     private Preview mPreview;
     Camera mCamera;
@@ -156,7 +159,7 @@ class Preview extends ViewGroup implements SurfaceHolder.Callback {
         mCamera = camera;
         if (mCamera != null) {
             mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
-            requestLayout();
+            requestLayout();// 请求重新布局
         }
     }
 
@@ -169,11 +172,19 @@ class Preview extends ViewGroup implements SurfaceHolder.Callback {
         }
         Camera.Parameters parameters = camera.getParameters();
         parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
-        requestLayout();
+        requestLayout();// 请求重新布局
 
         camera.setParameters(parameters);
     }
 
+    /**
+     * onMeasure方法在控件的父元素正要放置它的子控件时调用.
+     * 它会问一个问题，“你想要用多大地方啊？”，然后传入两个参数——widthMeasureSpec和heightMeasureSpec.
+     * 它们指明控件可获得的空间以及关于这个空间描述的元数据.
+     *
+     * @param widthMeasureSpec
+     * @param heightMeasureSpec
+     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // We purposely disregard child measurements because act as a
@@ -181,7 +192,7 @@ class Preview extends ViewGroup implements SurfaceHolder.Callback {
         // of stretching it.
         final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
-        setMeasuredDimension(width, height);
+        setMeasuredDimension(width, height);//这个方法决定了当前View的大小
 
         if (mSupportedPreviewSizes != null) {
             mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
