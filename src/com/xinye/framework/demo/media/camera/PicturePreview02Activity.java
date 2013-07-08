@@ -12,7 +12,7 @@ import com.xinye.framework.demo.R;
 import com.xinye.framework.media.camera.CameraPreview;
 
 /**
- * 简单的Camera Preview示例，
+ * 简单的Camera Preview示例，定制Preview大小
  */
 public class PicturePreview02Activity extends Activity {
     private CameraPreview mPreview;

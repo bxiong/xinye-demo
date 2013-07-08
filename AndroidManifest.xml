@@ -12,7 +12,7 @@
 
     <application android:label="@string/app_name"
                  android:icon="@drawable/ic_launcher">
-        <activity android:name=".media.camera.PicturePreview02Activity">
+        <activity android:name=".media.camera.PicturePreview03Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

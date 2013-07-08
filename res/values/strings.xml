@@ -3,4 +3,14 @@
     <string name="app_name">demo</string>
     <string name="camera_alert">Device has only one camera!</string>
     <string name="switch_cam">Switch Camera</string>
+
+    <!-- camera -->
+    <string name="switchCamera">Switch camera</string>
+    <string name="camera">Camera</string>
+    <string name="zoom">Zoom</string>
+    <string name="focus">Focus</string>
+    <string name="no_cameras">This device has no cameras!</string>
+    <string name="flash">Flash</string>
+    <string name="whiteBalance">White Balance</string>
+    <string name="set_parameters_failed">Set parameters failed: </string>
 </resources>

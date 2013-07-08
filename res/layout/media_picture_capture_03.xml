@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <com.xinye.framework.media.camera.CameraPreview
+            android:id="@+id/cameraPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    <Button android:id="@+id/changeCamera"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="switch"
+            android:layout_margin="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+    <Button android:id="@+id/changeFlash"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Flash auto"
+            android:layout_margin="10dp"
+            android:layout_below="@id/changeCamera"
+            android:layout_alignParentLeft="true"/>
+    <Button android:id="@+id/changeFocus"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="focus"
+            android:layout_margin="10dp"
+            android:layout_below="@id/changeFlash"
+            android:layout_alignParentLeft="true"/>
+    <Button android:id="@+id/changeWhite"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="white"
+            android:layout_margin="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"/>
+    <Button android:id="@+id/changeZoom"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="zoom"
+            android:layout_margin="10dp"
+            android:layout_below="@id/changeWhite"
+            android:layout_alignParentRight="true"/>
+</RelativeLayout>
