@@ -1,9 +1,13 @@
 package com.xinye.framework.demo.media.camera;
 
 
+import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.Surface;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,16 +17,19 @@ import com.xinye.framework.demo.R;
 import com.xinye.framework.media.camera.CameraPreview;
 import com.xinye.framework.media.camera.ManageCameraActivity;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
- * 简单的Camera Preview示例，定制Preview大小
+ * 简单的自定义相机实现
  */
 public class PicturePreview03Activity extends ManageCameraActivity
-        implements CameraPreview.PreviewSizeChangedCallback {
+        implements CameraPreview.PreviewSizeChangedCallback, Camera.PictureCallback {
 
     private Button mButtonFlash, mButtonFocus, mButtonSwitch,
-            mButtonWhiteBalance, mButtonZoom;
+            mButtonWhiteBalance, mButtonZoom, mButtonTake;
 
     private CameraPreview mPreview;
 
@@ -60,7 +67,11 @@ public class PicturePreview03Activity extends ManageCameraActivity
                 case R.id.changeZoom:
                     cameraParameters.setZoom((cameraParameters.getZoom() + 1) % (cameraParameters.getMaxZoom() + 1));
                     break;
-                default:
+                case R.id.takePicture:
+//                    setCameraDisplayOrientation();
+                    mCamera.takePicture(null, null,PicturePreview03Activity.this);
+                    return;
+//                    break;
 
             }
 
@@ -103,6 +114,33 @@ public class PicturePreview03Activity extends ManageCameraActivity
         setCameraLabels(cameraParameters);
     }
 
+    public void setCameraDisplayOrientation() {
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        Camera.getCameraInfo(mDefaultCameraId, cameraInfo);
+        int rotation = getWindowManager().getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
+        }
+        int desiredRotation =
+                (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) ?
+                        (360 - cameraInfo.orientation) : cameraInfo.orientation;
+        int result = (desiredRotation - degrees + 360) % 360;
+        mCamera.setDisplayOrientation(result);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +173,8 @@ public class PicturePreview03Activity extends ManageCameraActivity
         mButtonZoom.setOnClickListener(mOnClickListener);
         mButtonFlash = (Button) findViewById(R.id.changeFlash);
         mButtonFlash.setOnClickListener(mOnClickListener);
+        mButtonTake = (Button) findViewById(R.id.takePicture);
+        mButtonTake.setOnClickListener(mOnClickListener);
 
         mPreview = (CameraPreview) findViewById(R.id.cameraPreview);
         mPreview.setPreviewSizeChangedCallback(this);
@@ -148,8 +188,7 @@ public class PicturePreview03Activity extends ManageCameraActivity
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         // clear current camera from UI
         mPreview.setCamera(null);
@@ -193,8 +232,21 @@ public class PicturePreview03Activity extends ManageCameraActivity
         mButtonZoom.setEnabled(cameraParameters.isZoomSupported()
                 && cameraParameters.getMaxZoom() > 0);
     }
+
+    @Override
+    public void onPictureTaken(byte[] data, Camera camera) {
+        Uri imageFileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+        try {
+            OutputStream imageFileOS = getContentResolver().openOutputStream(imageFileUri);
+            imageFileOS.write(data);
+            imageFileOS.flush();
+            imageFileOS.close();
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+        camera.startPreview();
+    }
 }
 
-// ----------------------------------------------------------------------
 
 
